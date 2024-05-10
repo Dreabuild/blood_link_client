@@ -34,10 +34,10 @@ a {
 ::-webkit-scrollbar-thumb {
   -webkit-border-radius: 0px;
   border-radius: 0px;
-  background: #fffefe;
+  background: #e9d4d4;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(139, 139, 139);
+  background: #b98787;
 }
 
 ul {
@@ -61,8 +61,20 @@ button {
   display: none;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
-.no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+/* Checkbox */
+
+.path {
+  fill: none;
+  stroke: #bf0000;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke-dasharray 0.5s ease, stroke-dashoffset 0.5s ease;
+  stroke-dasharray: 241 9999999;
+  stroke-dashoffset: 0;
+}
+
+.checkbox:checked ~ svg .path {
+  stroke-dasharray: 70.5096664428711 9999999;
+  stroke-dashoffset: -262.2723388671875;
 }

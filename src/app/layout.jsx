@@ -31,7 +31,7 @@ export default function RootLayout({ children }) {
           shadow="0 0 10px #BF0000,0 0 5px #BF0000"
         />
         <div className="flex flex-col items-center justify-center mx-auto h-screen max-w-[580px]">
-          <div className="w-full border-[3px] border-primary h-[670px] relative">
+          <div className="w-full border-[3px] border-primary h-[670px] relative overflow-y-auto">
             <div className="flex items-center justify-between p-4 border-b-[3px] border-primary">
               <Link href="/">
                 <Image
@@ -52,8 +52,10 @@ export default function RootLayout({ children }) {
             </div>
             <div>{children}</div>
           </div>
-          <div className="flex items-center justify-between bg-primary w-full mt-6 p-4">
-            <p className="font-bold text-white">Download the BloodLink App</p>
+          <div className="flex items-center justify-between bg-red-400 w-full mt-6 p-4">
+            <p className="lg:text-base text-xs font-bold text-white">
+              Download the BloodLink App
+            </p>
             <div className="flex items-center gap-x-2">
               <Link href="/">
                 <Image
