@@ -85,6 +85,7 @@ export default function Home() {
           iconSize="20"
           text="ব্যাংক হোম"
           isOutline
+          onClick={() => router.push("/bank-home")}
         />
 
         <Button
