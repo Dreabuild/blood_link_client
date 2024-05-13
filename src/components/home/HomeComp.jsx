@@ -1,13 +1,15 @@
 import Card from "@/components/home/Card";
 import Button from "@/components/ui/Button";
 import { bloodGroups, districts } from "@/constants/data";
+import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function HomeComp() {
     const router = useRouter();
     const [selectedGroup, setSelectedGroup] = useState("");
     const [selectedDistrict, setSelectedDistrict] = useState("");
+    const [requests, setRequests] = useState([]);
 
     const handleGroupChange = (event) => {
         setSelectedGroup(event.target.value);
@@ -16,6 +18,29 @@ export default function HomeComp() {
     const handleDistrictChange = (event) => {
         setSelectedDistrict(event.target.value);
     };
+
+    useEffect(() => {
+        const getBloodRequests = async () => {
+            try {
+                let url = `${process.env.NEXT_PUBLIC_BASE_URL}/request?`;
+                if (selectedGroup) {
+                    url += `bloodGroup=${selectedGroup}&`;
+                }
+                if (selectedDistrict) {
+                    url += `district=${selectedDistrict}`;
+                }
+                const res = await axios.get(url);
+                if (res.status === 200) {
+                    console.log(res.data.data);
+                    setRequests(res.data.data);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getBloodRequests();
+    }, [selectedGroup, selectedDistrict]);
+
     return (
         <main>
             {/* select boxes  */}
@@ -53,9 +78,9 @@ export default function HomeComp() {
 
             {/* cards and info  */}
 
-            <div className="mb-auto flex-grow">
+            <div className="mb-auto flex-grow h-[455px]">
                 <p className="font-semibold text-center my-8">
-                    <span className="text-primary font-bold">১</span> টি{" "}
+                    <span className="text-primary font-bold">{requests.length}</span> টি{" "}
                     {selectedGroup !== "" && (
                         <span>
                             <span className="text-primary font-bold">{selectedGroup}</span>{" "}
@@ -71,7 +96,11 @@ export default function HomeComp() {
                     &quot; জেলায়
                 </p>
 
-                <Card />
+                <div className="grid grid-cols-1 gap-y-4 my-6">
+                    {requests.map((req) => (
+                        <Card key={req?.id} data={req}/>
+                    ))}
+                </div>
             </div>
 
             {/* buttons  */}
