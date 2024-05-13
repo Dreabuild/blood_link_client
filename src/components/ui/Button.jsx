@@ -1,5 +1,6 @@
-import Image from "next/image";
 import React from "react";
+import { LiaHospitalAltSolid } from "react-icons/lia";
+import { FiFolderPlus } from "react-icons/fi";
 
 const Button = ({
   text,
@@ -12,22 +13,22 @@ const Button = ({
   onClick,
   type,
 }) => {
+  // Determine which icon component to use based on the icon prop
+  const IconComponent = icon === "LiaHospitalAltSolid" ? LiaHospitalAltSolid : FiFolderPlus;
+
   return (
     <button
-      className={`flex ${
-        iconPosition === "right" ? "flex-row-reverse" : ""
-      } items-center gap-x-1 p-3 justify-center   font-bold ${
-        isOutline
+      className={`flex ${iconPosition === "right" ? "flex-row-reverse" : ""
+        } items-center gap-x-2 p-3 justify-center   font-bold ${isOutline
           ? "hover:bg-primary text-primary hover:text-white"
           : "bg-primary text-white"
-      }  transition-all ${className}`}
+        }  transition-all ${className}`}
       style={style}
       onClick={onClick}
       type={type}
     >
-      {icon && (
-        <Image src={icon} alt="Icon" width={iconSize} height={iconSize} />
-      )}
+      {/* Render the icon component */}
+      {icon && <IconComponent size={iconSize} />}
       <span className="">{text}</span>
     </button>
   );

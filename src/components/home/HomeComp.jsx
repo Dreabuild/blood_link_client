@@ -5,6 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+
 export default function HomeComp() {
     const router = useRouter();
     const [selectedGroup, setSelectedGroup] = useState("");
@@ -78,7 +79,7 @@ export default function HomeComp() {
 
             {/* cards and info  */}
 
-            <div className="mb-auto flex-grow h-[455px]">
+            <div className="mb-auto flex-grow h-[450px] overflow-auto">
                 <p className="font-semibold text-center my-8">
                     <span className="text-primary font-bold">{requests.length}</span> টি{" "}
                     {selectedGroup !== "" && (
@@ -109,7 +110,7 @@ export default function HomeComp() {
                 <Button
                     className="w-1/2"
                     style={{ borderRight: "3px solid #BF0000" }}
-                    icon="/assets/icons/bloodbag.svg"
+                    icon="LiaHospitalAltSolid"
                     iconSize="20"
                     text="ব্যাংক হোম"
                     isOutline
@@ -118,7 +119,7 @@ export default function HomeComp() {
 
                 <Button
                     className="w-1/2"
-                    icon="/assets/icons/folder.svg"
+                    icon="FiFolderPlus "
                     iconSize="20"
                     text="নতুন আবেদন"
                     isOutline
