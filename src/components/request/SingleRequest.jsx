@@ -15,6 +15,7 @@ const SingleRequest = () => {
     place: "Blue Vue Healthcare, চট্টগ্রাম",
     placedDate: "10-May-2024, Friday",
     watchCount: 16,
+    gender: "male",
     id: 133,
   };
   return (
@@ -42,6 +43,9 @@ const SingleRequest = () => {
           </p>
           <p className="text-gray-500">
             রোগীর সমস্যা: <span className="text-primary">{data.problem}</span>
+          </p>
+          <p className="text-gray-500">
+            রোগীর জেন্ডার: <span className="text-primary">{data.gender === "female" ? "মহিলা" : data.gender === "male" ? "পুরুষ" : "অন্যান্য"}</span>
           </p>
           <p className="text-gray-500">
             রক্তের পরিমান:{" "}

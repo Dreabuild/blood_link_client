@@ -2,13 +2,32 @@ import Button from "@/components/ui/Button";
 import { bloodGroups, districts } from "@/constants/data";
 import React from "react";
 import { useForm } from "react-hook-form";
+import axios from "axios"
+import toast, { Toaster } from 'react-hot-toast';
+
 
 const SendRequest = () => {
-  const { register, handleSubmit } = useForm();
+  const { 
+    register, 
+    handleSubmit
+  } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
-    // Handle form submission logic here
+try{
+  const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/request/create`, {
+    ...data,
+    amount_of_blood: Number(data.amount_of_blood),
+    hemoglobin_point: parseFloat(data.hemoglobin_point)
+
+  });
+  if (res.status == 200) {
+    toast('আবেদন সাবমিটেড')
+  }
+
+}catch(e){
+  console.log(e)
+}
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -21,9 +40,9 @@ const SendRequest = () => {
           <p className="text-primary text-xl mb-4">প্রাথমিক তথ্য</p>
           <div className="space-y-4">
             <select
-              id="bloodGroup"
+              id="blood_group"
               className="block w-full px-4 py-3 text-base text-gray-500 border border-gray-500 bg-gray-50 focus:border-primary focus:ring-primary cursor-pointer"
-              {...register("bloodGroup", { required: true })}
+              {...register("blood_group", { required: true })}
             >
               <option value="">রক্তের গ্রুপ</option>
               {bloodGroups.map((item, index) => (
@@ -33,25 +52,25 @@ const SendRequest = () => {
               ))}
             </select>
             <input
-              type="number"
+              type="float"
               id="hemoglobin"
               className="block w-full px-4 py-3 text-base text-gray-500 border border-gray-500 bg-gray-50 focus:border-primary focus:ring-primary "
               placeholder="হিমোগ্লোবিন পয়েন্ট"
-              {...register("hemoglobin", { required: false })}
+              {...register("hemoglobin_point", { required: false })}
             />
             <input
               type="number"
               id="quantity"
               className="block w-full px-4 py-3 text-base text-gray-500 border border-gray-500 bg-gray-50 focus:border-primary focus:ring-primary "
               placeholder="রক্তের পরিমাণ"
-              {...register("quantity", { required: true })}
+              {...register("amount_of_blood", { required: true })}
             />
             <input
               type="text"
               id="problem"
               className="block w-full px-4 py-3 text-base text-gray-500 border border-gray-500 bg-gray-50 focus:border-primary focus:ring-primary "
               placeholder="রোগীর সমস্যা"
-              {...register("quantity", { required: true })}
+              {...register("patient_problem", { required: true })}
             />
           </div>
         </div>
@@ -76,49 +95,51 @@ const SendRequest = () => {
               id="hospital"
               className="block w-full px-4 py-3 text-base text-gray-500 border border-gray-500 bg-gray-50 focus:border-primary focus:ring-primary "
               placeholder="হাসপাতালের নাম"
-              {...register("hospital", { required: true })}
+              {...register("hospital_name", { required: true })}
             />
             <input
               type="tel"
               id="phone"
               className="block w-full px-4 py-3 text-base text-gray-500 border border-gray-500 bg-gray-50 focus:border-primary focus:ring-primary "
               placeholder="মোবাইল নাম্বার"
-              {...register("phone", { required: true })}
+              {...register("mobile_number", { required: true })}
             />
             <input
               type="tel"
               id="whatsapp"
               className="block w-full px-4 py-3 text-base text-gray-500 border border-gray-500 bg-gray-50 focus:border-primary focus:ring-primary "
               placeholder="হোয়াটএপস নাম্বার"
-              {...register("whatsapp", { required: true })}
+              {...register("whatsapp_number", { required: true })}
             />
             <input
               type="link"
               id="facebook"
               className="block w-full px-4 py-3 text-base text-gray-500 border border-gray-500 bg-gray-50 focus:border-primary focus:ring-primary "
-              placeholder="ফেসবুক একাউন্টের লিংক"
-              {...register("facebook", { required: true })}
+              placeholder="ফেসবুক একাউন্টের লিংক(ঐচ্ছিক)"
+              {...register("facebook_account_url")}
             />
             <select
               id="gender"
               className="block w-full px-4 py-3 text-base text-gray-500 border border-gray-500 bg-gray-50 focus:border-primary focus:ring-primary cursor-pointer"
-              {...register("gender", { required: true })}
+              {...register("gender")}
             >
-              <option value="">রোগীর জেন্ডার</option>
-              <option value="পুরুষ">পুরুষ</option>
-              <option value="মহিলা">মহিলা</option>
-              <option value="অন্যান্য">অন্যান্য</option>
+              <option value="">রোগীর জেন্ডার(ঐচ্ছিক)</option>
+              <option value="male">পুরুষ</option>
+              <option value="female">মহিলা</option>
+              <option value="others">অন্যান্য</option>
             </select>
             <input
               type="text"
               id="relation"
               className="block w-full px-4 py-3 text-base text-gray-500 border border-gray-500 bg-gray-50 focus:border-primary focus:ring-primary "
-              placeholder="আপনি রোগীর কি হোন?"
-              {...register("relation", { required: false })}
+              placeholder="আপনি রোগীর কি হোন?(ঐচ্ছিক)"
+              {...register("relation")}
             />
             <div className="my-4">
               <label className="cursor-pointer flex items-center gap-x-2">
-                <input type="checkbox" className="hidden checkbox" />
+                <input
+                 {...register("urgent", { required: false })}
+                 type="checkbox" className="hidden checkbox" />
                 <svg
                   viewBox="0 0 64 64"
                   height="1.1em"
@@ -136,18 +157,26 @@ const SendRequest = () => {
                 </span>
               </label>
             </div>
+            <input
+              type="date"
+              id="relation"
+              className="block w-full px-4 py-3 text-base text-gray-500 border border-gray-500 bg-gray-50 focus:border-primary focus:ring-primary "
+              placeholder="আপনি রোগীর কি হোন?(ঐচ্ছিক)"
+              {...register("delivery_time", {required: true})}
+            />
 
             <textarea
               id="description"
-              className="block w-full px-4 py-3 text-base text-gray-500 border border-gray-500 bg-gray-50 focus:border-primary focus:ring-primary "
-              placeholder="বিস্তারিত"
+              className="block mt-4 w-full px-4 py-3 text-base text-gray-500 border border-gray-500 bg-gray-50 focus:border-primary focus:ring-primary "
+              placeholder="বিস্তারিত(ঐচ্ছিক)"
               rows={4}
-              {...register("description", { required: true })}
+              {...register("description")}
             />
           </div>
         </div>
       </div>
       <Button className="w-full" type="submit" text="সাবমিট" />
+      <Toaster />
     </form>
   );
 };
