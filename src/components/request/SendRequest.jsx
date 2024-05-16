@@ -7,27 +7,27 @@ import toast, { Toaster } from 'react-hot-toast';
 
 
 const SendRequest = () => {
-  const { 
-    register, 
+  const {
+    register,
     handleSubmit
   } = useForm();
 
   const onSubmit = async (data) => {
     console.log(data);
-try{
-  const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/request/create`, {
-    ...data,
-    amount_of_blood: Number(data.amount_of_blood),
-    hemoglobin_point: parseFloat(data.hemoglobin_point)
+    try {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/request/create`, {
+        ...data,
+        amount_of_blood: Number(data.amount_of_blood),
+        hemoglobin_point: parseFloat(data.hemoglobin_point)
 
-  });
-  if (res.status == 200) {
-    toast('আবেদন সাবমিটেড')
-  }
+      });
+      if (res.status == 200) {
+        toast('আবেদন সাবমিটেড')
+      }
 
-}catch(e){
-  console.log(e)
-}
+    } catch (e) {
+      console.log(e)
+    }
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -138,8 +138,8 @@ try{
             <div className="my-4">
               <label className="cursor-pointer flex items-center gap-x-2">
                 <input
-                 {...register("urgent", { required: false })}
-                 type="checkbox" className="hidden checkbox" />
+                  {...register("urgent", { required: false })}
+                  type="checkbox" className="hidden checkbox" />
                 <svg
                   viewBox="0 0 64 64"
                   height="1.1em"
@@ -162,7 +162,7 @@ try{
               id="relation"
               className="block w-full px-4 py-3 text-base text-gray-500 border border-gray-500 bg-gray-50 focus:border-primary focus:ring-primary "
               placeholder="আপনি রোগীর কি হোন?(ঐচ্ছিক)"
-              {...register("delivery_time", {required: true})}
+              {...register("delivery_time", { required: true })}
             />
 
             <textarea

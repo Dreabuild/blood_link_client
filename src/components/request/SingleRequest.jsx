@@ -1,11 +1,15 @@
 "use client";
 import Button from "@/components/ui/Button";
-import React from "react";
-import { useRouter } from "next/navigation";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";  // Import useRouter from 'next/router'
 import Image from "next/image";
+import axios from "axios"; // Import axios
 const SingleRequest = () => {
   const router = useRouter();
-  const data = {
+
+  console.log(router)
+  // Dummy data for demonstration
+  const [request, setRequest] = useState({
     group: "AB+",
     hemoglobin: "N/A",
     problem: "Uterine Tumor",
@@ -17,7 +21,27 @@ const SingleRequest = () => {
     watchCount: 16,
     gender: "male",
     id: 133,
-  };
+  });
+
+  useEffect(() => {
+    const getSingleRequest = async () => {
+      try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/request/1`);
+        if (res.status === 200) {
+          setRequest(res.data.data);
+          console.log(res)
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    if (id) {
+      // Only call API if 'id' is available
+      getSingleRequest();
+    }
+  }, []); // Added 'id' as a dependency for useEffect
+
   return (
     <div>
       <div className="  mx-6 mt-8 p-6">
@@ -35,42 +59,42 @@ const SingleRequest = () => {
         </div>
         <div className="mt-8 space-y-2">
           <p className="text-gray-500">
-            রক্তের গ্রুপ: <span className="text-primary">{data.group}</span>
+            রক্তের গ্রুপ: <span className="text-primary">{request.group}</span>
           </p>
           <p className="text-gray-500">
             হিমোগ্লোবিন পয়েন্ট:{" "}
-            <span className="text-primary">{data.hemoglobin}</span>
+            <span className="text-primary">{request.hemoglobin}</span>
           </p>
           <p className="text-gray-500">
-            রোগীর সমস্যা: <span className="text-primary">{data.problem}</span>
+            রোগীর সমস্যা: <span className="text-primary">{request.problem}</span>
           </p>
           <p className="text-gray-500">
-            রোগীর জেন্ডার: <span className="text-primary">{data.gender === "female" ? "মহিলা" : data.gender === "male" ? "পুরুষ" : "অন্যান্য"}</span>
+            রোগীর জেন্ডার: <span className="text-primary">{request.gender === "female" ? "মহিলা" : request.gender === "male" ? "পুরুষ" : "অন্যান্য"}</span>
           </p>
           <p className="text-gray-500">
             রক্তের পরিমান:{" "}
-            <span className="text-primary">{data.quantity} ব্যাগ</span>
+            <span className="text-primary">{request.quantity} ব্যাগ</span>
           </p>
           <p className="text-gray-500">
-            জেলা: <span className="text-primary">{data.district}</span>
+            জেলা: <span className="text-primary">{request.district}</span>
           </p>
           <p className="text-gray-500">
-            রক্তদানের তারিখ: <span className="text-primary">{data.date}</span>
+            রক্তদানের তারিখ: <span className="text-primary">{request.date}</span>
           </p>
           <p className="text-gray-500">
-            রক্তদানের স্থান: <span className="text-primary">{data.place}</span>
+            রক্তদানের স্থান: <span className="text-primary">{request.place}</span>
           </p>
           <p className="text-gray-500">
             সংক্ষিপ্ত বিবরণ:{" "}
-            <span className="text-gray-300">{data.placedDate}</span>
+            <span className="text-gray-300">{request.placedDate}</span>
           </p>
         </div>
       </div>
       <div className="border-gray-200 border-t mt-4">
         <div className="mx-6 p-6 flex items-center justify-between">
-          <p className="text-primary font-medium">#{data.id}</p>
+          <p className="text-primary font-medium">#{request.id}</p>
           <p className="text-gray-100">
-            আবেদনটি দেখা হয়েছে: {data.watchCount} বার
+            আবেদনটি দেখা হয়েছে: {request.watchCount} বার
           </p>
         </div>
         <div className="  gap-x-6 flex items-center justify-center">

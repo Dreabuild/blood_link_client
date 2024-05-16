@@ -18,7 +18,7 @@ const Button = ({
 
   return (
     <button
-      className={`flex ${iconPosition === "right" ? "flex-row-reverse" : ""
+      className={`flex bg-[#fff] ${iconPosition === "right" ? "flex-row-reverse" : ""
         } items-center gap-x-2 p-3 justify-center   font-bold ${isOutline
           ? "hover:bg-primary text-primary hover:text-white"
           : "bg-primary text-white"
