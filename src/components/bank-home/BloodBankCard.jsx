@@ -4,17 +4,18 @@ import Button from "../ui/Button";
 import Image from "next/image";
 
 const Card = ({ bank }) => {
+  console.log(bank)
    const handleCall = () => {
-    if (bank?.phone_number) {
-      window.location.href = `tel:${bank.phone_number}`;
+     if (bank?.contact[0]) {
+      window.location.href = `tel:${bank?.contact[0]}`;
     } else {
       alert("Phone number is not available");
     }
   };
 
   const handleSMS = () => {
-    if (bank?.phone_number) {
-      window.location.href = `sms:${bank.phone_number}`;
+    if (bank?.contact[0]) {
+      window.location.href = `sms:${bank?.contact[0]}`;
     } else {
       alert("SMS number is not available");
     }
@@ -33,7 +34,7 @@ const Card = ({ bank }) => {
             <Button text="SMS" className="w-full" onClick={handleSMS} />
           </div>
         </div>
-        <div className="absolute inset-0 w-full left-1/2 transform -translate-x-1/2 z-0">
+        {/* <div className="absolute inset-0 w-full left-1/2 transform -translate-x-1/2 z-0">
           <div className="h-full w-full bg-gradient-to-r from-white to-transparent absolute left-0"></div>
           <Image
             src="/assets/map.png"
@@ -42,7 +43,7 @@ const Card = ({ bank }) => {
             objectFit="cover"
             className="opacity-20"
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );

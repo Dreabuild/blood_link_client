@@ -58,7 +58,7 @@ const updateCallCount = async (id) => {
           ...prev,
           call_count: prev.call_count + 1,
         }));
-        window.location.href = `tel:${request.phone_number}`;
+        window.location.href = `tel:${request.mobile_number[0]}`;
       }
     } catch (e) {
       console.log(e);
@@ -66,7 +66,8 @@ const updateCallCount = async (id) => {
   };
 
   return (
-    <div className="h-[555px] overflow-auto pb-4">
+    <div className="overflow-hidden">
+    <div className="overflow-auto h-[550px] pb-[10vh]">
       <div className="  mx-6 mt-8 p-6">
         <div className="flex items-center justify-between">
           <p className="bg-primary text-white p-3 uppercase">{request.blood_group}</p>
@@ -171,7 +172,7 @@ const updateCallCount = async (id) => {
         </div>
       </div>
       {/* buttons  */}
-
+</div>
       <div className="w-full absolute bottom-0 border-t-[3px] border-primary flex items-center justify-between">
         <Button
           className="w-1/2"

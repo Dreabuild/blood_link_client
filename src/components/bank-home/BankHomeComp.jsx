@@ -3,6 +3,9 @@ import Button from "@/components/ui/Button";
 import BloodBankCard from "@/components/bank-home/BloodBankCard";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+
+
 const BankHomeComp = () => {
     const router = useRouter();
     const [banks, setBanks] = useState([]);
@@ -22,11 +25,13 @@ const BankHomeComp = () => {
         }
         getBanks();
     }, []);
+
+    console.log(banks)
     return (
         <div>
             <div className="grid grid-cols-1 gap-y-4 my-6">
                  {banks.map((bank) => (
-                        <BloodBankCard key={bank?.id} data={bank}/>
+                        <BloodBankCard key={bank?.id} bank={bank}/>
                     ))}
             </div>
 
