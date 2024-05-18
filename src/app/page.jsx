@@ -1,4 +1,3 @@
-"use client";
 import HomeComp from '@/components/home/HomeComp';
 import Head from 'next/head';
 import React from 'react';

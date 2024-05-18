@@ -30,7 +30,7 @@ const SingleRequest = () => {
     const getSingleRequest = async () => {
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/request/1`
+          `${process.env.NEXT_PUBLIC_BASE_URL}/request/${id}`
         );
         if (res.status === 200) {
           setRequest(res.data.data);
@@ -42,7 +42,6 @@ const SingleRequest = () => {
     };
 
     if (id) {
-      // Only call API if 'id' is available
       getSingleRequest();
     }
   }, [id]); // Added 'id' as a dependency for useEffect

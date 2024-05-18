@@ -1,5 +1,3 @@
-"use client";
-
 import BankHomeComp from '@/components/bank-home/BankHomeComp';
 import Head from 'next/head';
 import React from 'react';

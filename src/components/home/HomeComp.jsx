@@ -1,3 +1,4 @@
+"use client";
 import Card from "@/components/home/Card";
 import Button from "@/components/ui/Button";
 import { bloodGroups, districts } from "@/constants/data";
