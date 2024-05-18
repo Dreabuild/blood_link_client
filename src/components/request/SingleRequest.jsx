@@ -5,27 +5,12 @@ import { useParams, useRouter } from "next/navigation"; // Import useRouter from
 import Image from "next/image";
 import axios from "axios"; // Import axios
 import { RWebShare } from "react-web-share";
+import Link from "next/link";
 
 const SingleRequest = () => {
   const router = useRouter();
   const { id } = useParams();
-  console.log(router, id);
-
-  // Dummy data for demonstration
-  const [request, setRequest] = useState({
-    group: "AB+",
-    hemoglobin: "N/A",
-    problem: "Uterine Tumor",
-    quantity: 2,
-    district: "চট্টগ্রাম",
-    date: "যত দ্রুত সম্ভব",
-    place: "Blue Vue Healthcare, চট্টগ্রাম",
-    placedDate: "10-May-2024, Friday",
-    watchCount: 16,
-    gender: "male",
-    id: 133,
-  });
-
+  const [request, setRequest] = useState({});
   useEffect(() => {
     const getSingleRequest = async () => {
       try {
@@ -34,7 +19,7 @@ const SingleRequest = () => {
         );
         if (res.status === 200) {
           setRequest(res.data.data);
-          console.log(res);
+          console.log(res?.data?.data);
         }
       } catch (e) {
         console.log(e);
@@ -46,11 +31,45 @@ const SingleRequest = () => {
     }
   }, [id]); // Added 'id' as a dependency for useEffect
 
+    const updateMessageCount = async (id) => {
+    try {
+      const res = await axios.patch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/request/message/${id}`
+      );
+      if (res.status === 200) {
+        setRequest((prev) => ({
+          ...prev,
+          message_count: prev.message_count + 1,
+        }));
+        window.open(`https://wa.me/${request.whatsapp_number}`, '_blank');
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+const updateCallCount = async (id) => {
+    try {
+      const res = await axios.patch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/request/call/${id}`
+      );
+      if (res.status === 200) {
+        setRequest((prev) => ({
+          ...prev,
+          call_count: prev.call_count + 1,
+        }));
+        window.location.href = `tel:${request.phone_number}`;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
-    <div>
+    <div className="h-[555px] overflow-auto pb-4">
       <div className="  mx-6 mt-8 p-6">
         <div className="flex items-center justify-between">
-          <p className="bg-primary text-white p-3">AB+</p>
+          <p className="bg-primary text-white p-3 uppercase">{request.blood_group}</p>
           <RWebShare
             data={{
               text: `${request.group} Blood request`,
@@ -71,15 +90,15 @@ const SingleRequest = () => {
         </div>
         <div className="mt-8 space-y-2">
           <p className="text-gray-500">
-            রক্তের গ্রুপ: <span className="text-primary">{request.group}</span>
+            রক্তের গ্রুপ: <span className="text-primary">{request.blood_group}</span>
           </p>
           <p className="text-gray-500">
             হিমোগ্লোবিন পয়েন্ট:{" "}
-            <span className="text-primary">{request.hemoglobin}</span>
+            <span className="text-primary">{request.hemoglobin_point}</span>
           </p>
           <p className="text-gray-500">
             রোগীর সমস্যা:{" "}
-            <span className="text-primary">{request.problem}</span>
+            <span className="text-primary">{request.patient_problem}</span>
           </p>
           <p className="text-gray-500">
             রোগীর জেন্ডার:{" "}
@@ -93,22 +112,22 @@ const SingleRequest = () => {
           </p>
           <p className="text-gray-500">
             রক্তের পরিমান:{" "}
-            <span className="text-primary">{request.quantity} ব্যাগ</span>
+            <span className="text-primary">{request.amount_of_blood} ব্যাগ</span>
           </p>
           <p className="text-gray-500">
             জেলা: <span className="text-primary">{request.district}</span>
           </p>
           <p className="text-gray-500">
             রক্তদানের তারিখ:{" "}
-            <span className="text-primary">{request.date}</span>
+            <span className="text-primary">{request.urgent ? "যত দ্রুত সম্ভব" : request?.delivery_time}</span>
           </p>
           <p className="text-gray-500">
             রক্তদানের স্থান:{" "}
-            <span className="text-primary">{request.place}</span>
+            <span className="text-primary">{request.hospital_name}</span>
           </p>
           <p className="text-gray-500">
             সংক্ষিপ্ত বিবরণ:{" "}
-            <span className="text-gray-300">{request.placedDate}</span>
+            <span className="text-gray-300">{request.description}</span>
           </p>
         </div>
       </div>
@@ -116,13 +135,15 @@ const SingleRequest = () => {
         <div className="mx-6 p-6 flex items-center justify-between">
           <p className="text-primary font-medium">#{request.id}</p>
           <p className="text-gray-100">
-            আবেদনটি দেখা হয়েছে: {request.watchCount} বার
+            আবেদনটি দেখা হয়েছে: {request.views_count} বার
           </p>
         </div>
         <div className="  gap-x-6 flex items-center justify-center">
-          <button className=" bg-red-50 flex items-center justify-center p-3 group relative">
+          <button
+          onClick={() => updateCallCount(request.id)}
+          className=" bg-red-50 flex items-center justify-center p-3 group relative">
             <div className="absolute -top-2 -right-2 bg-primary rounded-3xl  text-white text-xs px-2 py-1">
-              14
+              {request?.call_count}
             </div>
             <Image
               src="/assets/icons/phone.svg"
@@ -133,9 +154,11 @@ const SingleRequest = () => {
             />
             <p className="font-bold text-primary mx-2">কল করো</p>
           </button>
-          <button className=" bg-[#E6F9EA] flex items-center justify-center p-3 group relative">
+          <button
+          onClick={() => updateMessageCount(request.id)}
+            className=" bg-[#E6F9EA] flex items-center justify-center p-3 group relative">
             <div className="absolute -top-2 -right-2 bg-[#40C351] rounded-3xl  text-white text-xs px-2 py-1">
-              67
+              {request?.message_count}
             </div>
             <Image
               src="/assets/icons/WhatsApp.svg"
