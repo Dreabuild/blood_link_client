@@ -31,7 +31,7 @@ const SingleRequest = () => {
     }
   }, [id]); // Added 'id' as a dependency for useEffect
 
-    const updateMessageCount = async (id) => {
+  const updateMessageCount = async (id) => {
     try {
       const res = await axios.patch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/request/message/${id}`
@@ -41,14 +41,14 @@ const SingleRequest = () => {
           ...prev,
           message_count: prev.message_count + 1,
         }));
-        window.open(`https://wa.me/${request.whatsapp_number}`, '_blank');
+        window.open(`https://wa.me/${request.whatsapp_number}`, "_blank");
       }
     } catch (e) {
       console.log(e);
     }
   };
 
-const updateCallCount = async (id) => {
+  const updateCallCount = async (id) => {
     try {
       const res = await axios.patch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/request/call/${id}`
@@ -69,7 +69,9 @@ const updateCallCount = async (id) => {
     <div className="h-[555px] overflow-auto pb-4">
       <div className="  mx-6 mt-8 p-6">
         <div className="flex items-center justify-between">
-          <p className="bg-primary text-white p-3 uppercase">{request.blood_group}</p>
+          <p className="bg-primary text-white p-3 uppercase">
+            {request.blood_group}
+          </p>
           <RWebShare
             data={{
               text: `${request.group} Blood request`,
@@ -90,7 +92,8 @@ const updateCallCount = async (id) => {
         </div>
         <div className="mt-8 space-y-2">
           <p className="text-gray-500">
-            রক্তের গ্রুপ: <span className="text-primary">{request.blood_group}</span>
+            রক্তের গ্রুপ:{" "}
+            <span className="text-primary">{request.blood_group}</span>
           </p>
           <p className="text-gray-500">
             হিমোগ্লোবিন পয়েন্ট:{" "}
@@ -112,14 +115,18 @@ const updateCallCount = async (id) => {
           </p>
           <p className="text-gray-500">
             রক্তের পরিমান:{" "}
-            <span className="text-primary">{request.amount_of_blood} ব্যাগ</span>
+            <span className="text-primary">
+              {request.amount_of_blood ?? 0} ব্যাগ
+            </span>
           </p>
           <p className="text-gray-500">
             জেলা: <span className="text-primary">{request.district}</span>
           </p>
           <p className="text-gray-500">
             রক্তদানের তারিখ:{" "}
-            <span className="text-primary">{request.urgent ? "যত দ্রুত সম্ভব" : request?.delivery_time}</span>
+            <span className="text-primary">
+              {request.urgent ? "যত দ্রুত সম্ভব" : request?.delivery_time}
+            </span>
           </p>
           <p className="text-gray-500">
             রক্তদানের স্থান:{" "}
@@ -133,17 +140,18 @@ const updateCallCount = async (id) => {
       </div>
       <div className="border-gray-200 border-t mt-4">
         <div className="mx-6 p-6 flex items-center justify-between">
-          <p className="text-primary font-medium">#{request.id}</p>
+          <p className="text-primary font-medium">#{request.id ?? 0}</p>
           <p className="text-gray-100">
-            আবেদনটি দেখা হয়েছে: {request.views_count} বার
+            আবেদনটি দেখা হয়েছে: {request.views_count ?? 0} বার
           </p>
         </div>
         <div className="  gap-x-6 flex items-center justify-center">
           <button
-          onClick={() => updateCallCount(request.id)}
-          className=" bg-red-50 flex items-center justify-center p-3 group relative">
+            onClick={() => updateCallCount(request.id)}
+            className=" bg-red-50 flex items-center justify-center p-3 group relative"
+          >
             <div className="absolute -top-2 -right-2 bg-primary rounded-3xl  text-white text-xs px-2 py-1">
-              {request?.call_count}
+              {request?.call_count ?? 0}
             </div>
             <Image
               src="/assets/icons/phone.svg"
@@ -155,10 +163,11 @@ const updateCallCount = async (id) => {
             <p className="font-bold text-primary mx-2">কল করো</p>
           </button>
           <button
-          onClick={() => updateMessageCount(request.id)}
-            className=" bg-[#E6F9EA] flex items-center justify-center p-3 group relative">
+            onClick={() => updateMessageCount(request.id)}
+            className=" bg-[#E6F9EA] flex items-center justify-center p-3 group relative"
+          >
             <div className="absolute -top-2 -right-2 bg-[#40C351] rounded-3xl  text-white text-xs px-2 py-1">
-              {request?.message_count}
+              {request?.message_count ?? 0}
             </div>
             <Image
               src="/assets/icons/WhatsApp.svg"

@@ -1,7 +1,53 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.loader {
+  position: relative;
+  width: 1.5em;
+  aspect-ratio: 1/2;
+  filter: url(#goo);
+}
 
+#goo {
+  display: none;
+}
+
+.loader:before,
+.loader:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 100%;
+  aspect-ratio: 1/1;
+  animation: 2.5s ease-in-out infinite loader;
+  border-radius: 50%;
+}
+
+.loader:before {
+  background: linear-gradient(#bf0000, #bf0000);
+}
+
+.loader:after {
+  animation-delay: 0.75s;
+  background: linear-gradient(#bf0000, #bf0000);
+}
+
+@keyframes loader {
+  0%,
+  50%,
+  100% {
+    transform: translateY(0);
+  }
+
+  25% {
+    transform: translateY(99%);
+  }
+
+  75% {
+    transform: translateY(-99%);
+  }
+}
 * {
   padding: 0;
   margin: 0;
