@@ -1,13 +1,16 @@
 "use client";
 import Button from "@/components/ui/Button";
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";  // Import useRouter from 'next/router'
+import { useParams, useRouter } from "next/navigation"; // Import useRouter from 'next/router'
 import Image from "next/image";
 import axios from "axios"; // Import axios
+import { RWebShare } from "react-web-share";
+
 const SingleRequest = () => {
   const router = useRouter();
+  const { id } = useParams();
+  console.log(router, id);
 
-  console.log(router)
   // Dummy data for demonstration
   const [request, setRequest] = useState({
     group: "AB+",
@@ -26,10 +29,12 @@ const SingleRequest = () => {
   useEffect(() => {
     const getSingleRequest = async () => {
       try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/request/1`);
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/request/1`
+        );
         if (res.status === 200) {
           setRequest(res.data.data);
-          console.log(res)
+          console.log(res);
         }
       } catch (e) {
         console.log(e);
@@ -40,22 +45,30 @@ const SingleRequest = () => {
       // Only call API if 'id' is available
       getSingleRequest();
     }
-  }, []); // Added 'id' as a dependency for useEffect
+  }, [id]); // Added 'id' as a dependency for useEffect
 
   return (
     <div>
       <div className="  mx-6 mt-8 p-6">
         <div className="flex items-center justify-between">
           <p className="bg-primary text-white p-3">AB+</p>
-          <button className="w-12 h-12 bg-red-50 flex items-center justify-center p-2 group">
-            <Image
-              src="/assets/icons/share.svg"
-              alt="Arrow"
-              width={24}
-              height={24}
-              className="group-hover:scale-90 transition-all"
-            />
-          </button>
+          <RWebShare
+            data={{
+              text: `${request.group} Blood request`,
+              title: `${request.group} Blood request`,
+              url: `/request/${id}`,
+            }}
+          >
+            <button className="w-12 h-12 bg-red-50 flex items-center justify-center p-2 group">
+              <Image
+                src="/assets/icons/share.svg"
+                alt="Arrow"
+                width={24}
+                height={24}
+                className="group-hover:scale-90 transition-all"
+              />
+            </button>
+          </RWebShare>
         </div>
         <div className="mt-8 space-y-2">
           <p className="text-gray-500">
@@ -66,10 +79,18 @@ const SingleRequest = () => {
             <span className="text-primary">{request.hemoglobin}</span>
           </p>
           <p className="text-gray-500">
-            রোগীর সমস্যা: <span className="text-primary">{request.problem}</span>
+            রোগীর সমস্যা:{" "}
+            <span className="text-primary">{request.problem}</span>
           </p>
           <p className="text-gray-500">
-            রোগীর জেন্ডার: <span className="text-primary">{request.gender === "female" ? "মহিলা" : request.gender === "male" ? "পুরুষ" : "অন্যান্য"}</span>
+            রোগীর জেন্ডার:{" "}
+            <span className="text-primary">
+              {request.gender === "female"
+                ? "মহিলা"
+                : request.gender === "male"
+                ? "পুরুষ"
+                : "অন্যান্য"}
+            </span>
           </p>
           <p className="text-gray-500">
             রক্তের পরিমান:{" "}
@@ -79,10 +100,12 @@ const SingleRequest = () => {
             জেলা: <span className="text-primary">{request.district}</span>
           </p>
           <p className="text-gray-500">
-            রক্তদানের তারিখ: <span className="text-primary">{request.date}</span>
+            রক্তদানের তারিখ:{" "}
+            <span className="text-primary">{request.date}</span>
           </p>
           <p className="text-gray-500">
-            রক্তদানের স্থান: <span className="text-primary">{request.place}</span>
+            রক্তদানের স্থান:{" "}
+            <span className="text-primary">{request.place}</span>
           </p>
           <p className="text-gray-500">
             সংক্ষিপ্ত বিবরণ:{" "}
