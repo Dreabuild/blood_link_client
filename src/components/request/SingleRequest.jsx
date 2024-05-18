@@ -1,14 +1,15 @@
 "use client";
 import Button from "@/components/ui/Button";
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";  // Import useRouter from 'next/router'
 import Image from "next/image";
-import axios from "axios"; // Import axios
+import axios from "axios";
+import { useRouter } from "next/router";
+
 const SingleRequest = () => {
   const router = useRouter();
+  const { id } = router.query;
+  console.log(id);
 
-  console.log(router)
-  // Dummy data for demonstration
   const [request, setRequest] = useState({
     group: "AB+",
     hemoglobin: "N/A",
@@ -26,10 +27,10 @@ const SingleRequest = () => {
   useEffect(() => {
     const getSingleRequest = async () => {
       try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/request/1`);
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/request/${id}`);
         if (res.status === 200) {
           setRequest(res.data.data);
-          console.log(res)
+          console.log(res);
         }
       } catch (e) {
         console.log(e);
@@ -37,11 +38,9 @@ const SingleRequest = () => {
     };
 
     if (id) {
-      // Only call API if 'id' is available
       getSingleRequest();
     }
-  }, []); // Added 'id' as a dependency for useEffect
-
+  }, [id]);
   return (
     <div>
       <div className="  mx-6 mt-8 p-6">

@@ -1,3 +1,4 @@
+"use client";
 import Button from "@/components/ui/Button";
 import { bloodGroups, districts } from "@/constants/data";
 import React from "react";
