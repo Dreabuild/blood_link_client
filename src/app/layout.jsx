@@ -30,8 +30,8 @@ export default function RootLayout({ children }) {
           speed={200}
           shadow="0 0 10px #BF0000,0 0 5px #BF0000"
         />
-        <div className="flex flex-col items-center justify-center mx-auto h-screen max-w-[580px]">
-          <div className="w-full border-[3px] border-primary h-[670px] relative overflow-y-auto">
+        <div className="flex flex-col items-center justify-center mx-auto h-screen  max-w-[580px]">
+          <div className="w-full border-[3px] border-primary min-h-[670px] relative ">
             <div className="flex items-center justify-between p-4 border-b-[3px] border-primary">
               <Link href="/">
                 <Image
@@ -41,20 +41,24 @@ export default function RootLayout({ children }) {
                   height={28}
                 />
               </Link>
-              <Link href="/">
+              <Link
+                className=" bg-[#E6F9EA] flex items-center justify-center px-2 py-1 group relative"
+                href="/"
+              >
                 <Image
                   src="/assets/icons/WhatsApp.svg"
-                  alt="Logo"
+                  alt="Arrow"
                   width={29}
                   height={29}
+                  className="group-hover:scale-90 transition-all"
                 />
               </Link>
             </div>
             <div>{children}</div>
           </div>
-          <div className="flex items-center justify-between bg-red-400 w-full mt-6 p-4">
+          <div className="flex items-center justify-between bg-red-400 w-full mt-6 px-6 py-4">
             <p className="lg:text-base text-xs font-bold text-white">
-              Download the BloodLink App
+              ডাউনলোড ব্লাডলিংক অ্যাপ
             </p>
             <div className="flex items-center gap-x-2">
               <Link href="/">

@@ -3,12 +3,17 @@ import Button from "@/components/ui/Button";
 import BloodBankCard from "@/components/bank-home/BloodBankCard";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import Loader from "../ui/Loader";
+
 const BankHomeComp = () => {
   const router = useRouter();
   const [banks, setBanks] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getBanks = async () => {
+      setLoading(true);
       try {
         let url = `${process.env.NEXT_PUBLIC_BASE_URL}/bank`;
         const res = await axios.get(url);
@@ -19,15 +24,23 @@ const BankHomeComp = () => {
       } catch (error) {
         console.log(error);
       }
+      setLoading(false);
     };
     getBanks();
   }, []);
+
+  console.log(banks);
   return (
-    <div>
-      <div className="grid grid-cols-1 gap-y-4 my-6">
-        {banks.map((bank) => (
-          <BloodBankCard key={bank?.id} data={bank} />
-        ))}
+    <div className="overflow-hidden">
+      <div className="grid grid-cols-1   overflow-auto h-[540px] pb-[10vh]">
+        <p className="text-center text-primary text-xl my-6">
+          সকল ব্লাড ব্যাংক
+        </p>
+        {loading ? (
+          <Loader />
+        ) : (
+          banks?.map((bank) => <BloodBankCard key={bank?.id} bank={bank} />)
+        )}
       </div>
 
       {/* buttons  */}

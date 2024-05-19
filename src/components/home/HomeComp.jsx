@@ -12,6 +12,7 @@ export default function HomeComp() {
   const [selectedGroup, setSelectedGroup] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [requests, setRequests] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleGroupChange = (event) => {
     setSelectedGroup(event.target.value);
@@ -23,6 +24,7 @@ export default function HomeComp() {
 
   useEffect(() => {
     const getBloodRequests = async () => {
+      setLoading(true);
       try {
         let url = `${process.env.NEXT_PUBLIC_BASE_URL}/request?`;
         if (selectedGroup) {
@@ -39,10 +41,10 @@ export default function HomeComp() {
       } catch (error) {
         console.log(error);
       }
+      setLoading(false);
     };
     getBloodRequests();
   }, [selectedGroup, selectedDistrict]);
-
   return (
     <main>
       {/* select boxes  */}
@@ -79,31 +81,34 @@ export default function HomeComp() {
       </div>
 
       {/* cards and info  */}
-      <Loader />
-      <div className="mb-auto flex-grow h-[450px] overflow-auto">
-        <p className="font-semibold text-center my-8">
-          <span className="text-primary font-bold">{requests.length}</span> টি{" "}
-          {selectedGroup !== "" && (
-            <span>
-              <span className="text-primary font-bold">{selectedGroup}</span>{" "}
-              রক্তের
-            </span>
-          )}{" "}
-          আবেদন পাওয়া গেছে &quot;
-          {selectedDistrict !== "" ? (
-            <span className="text-primary font-bold">{selectedDistrict}</span>
-          ) : (
-            "সকল"
-          )}
-          &quot; জেলায়
-        </p>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="mb-auto flex-grow max-h-[440px] overflow-auto">
+          <p className="font-semibold text-center my-6">
+            <span className="text-primary font-bold">{requests.length}</span> টি{" "}
+            {selectedGroup !== "" && (
+              <span>
+                <span className="text-primary font-bold">{selectedGroup}</span>{" "}
+                রক্তের
+              </span>
+            )}{" "}
+            আবেদন পাওয়া গেছে &quot;
+            {selectedDistrict !== "" ? (
+              <span className="text-primary font-bold">{selectedDistrict}</span>
+            ) : (
+              "সকল"
+            )}
+            &quot; জেলায়
+          </p>
 
-        <div className="grid grid-cols-1 gap-y-4 my-6">
-          {requests.map((req) => (
-            <Card key={req?.id} data={req} />
-          ))}
+          <div className="grid grid-cols-1 gap-y-4 my-6">
+            {[...requests]?.reverse()?.map((req) => (
+              <Card key={req?.id} data={req} />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* buttons  */}
 
@@ -116,6 +121,7 @@ export default function HomeComp() {
           text="ব্যাংক হোম"
           isOutline
           onClick={() => router.push("/bank-home")}
+          isHome={true}
         />
 
         <Button
@@ -125,6 +131,7 @@ export default function HomeComp() {
           text="নতুন আবেদন"
           isOutline
           onClick={() => router.push("/request")}
+          isHome={true}
         />
       </div>
     </main>
