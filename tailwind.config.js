@@ -8,6 +8,7 @@ module.exports = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/react-tailwindcss-select/dist/index.esm.js",
   ],
   theme: {
     extend: {
@@ -27,7 +28,7 @@ module.exports = {
           900: "#500000",
         },
         gray: {
-          50: "e9e9e9",
+          // 50: "#e9e9e9",
           100: "#b9b9b9",
           200: "#989898",
           300: "#686868",
@@ -38,6 +39,9 @@ module.exports = {
           800: "#111111",
           900: "#0d0d0d",
         },
+      },
+      screens: {
+        small: { raw: "(max-height: 680px)" },
       },
     },
   },

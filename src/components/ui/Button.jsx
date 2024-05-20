@@ -24,7 +24,7 @@ const Button = ({
 
   return (
     <button
-      className={`flex bg-[#fff] hover:bg-opacity-95 active:scale-95 ${
+      className={`flex bg-[#fff] hover:bg-opacity-95  ${
         iconPosition === "right" ? "flex-row-reverse" : ""
       } items-center gap-x-2 p-3 justify-center   font-bold ${
         isOutline

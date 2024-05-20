@@ -3,11 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-const Card = ({data}) => {
+const Card = ({ data }) => {
   const router = useRouter();
   return (
     <div
-      className="group border mx-6 cursor-pointer hover:bg-[#F4F4F4] transition-all"
+      className="group border cursor-pointer hover:bg-[#F4F4F4] transition-all"
       onClick={() => router.push(`/request/${data?.id}`)}
     >
       <div className=" p-5 ">
@@ -17,11 +17,15 @@ const Card = ({data}) => {
         </div>
         <div className="flex justify-between gap-6 mt-8 ">
           <div>
-            <p className="font-medium">{data?.hospital_name} {', '} {data?.district}</p>
+            <p className="font-medium">
+              {data?.hospital_name} {", "} {data?.district}
+            </p>
             <p className="">{data?.district}</p>
           </div>
 
-          <p className="text-primary font-medium">{data?.amount_of_blood} ব্যাগ</p>
+          <p className="text-primary font-medium">
+            {data?.amount_of_blood} ব্যাগ
+          </p>
         </div>
       </div>
       <div className="mt-4 w-12 h-12 bg-red-50 flex items-center justify-center p-2">

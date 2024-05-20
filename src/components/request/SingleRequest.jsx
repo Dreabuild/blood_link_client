@@ -83,7 +83,7 @@ const SingleRequest = () => {
 
   return (
     <div className="overflow-hidden">
-      <div className="overflow-auto h-[540px] pb-[10vh]">
+      <div className="overflow-auto small:h-[62vh] h-[540px] pb-[10vh]">
         {loading ? (
           <Loader />
         ) : error ? (
@@ -105,7 +105,7 @@ const SingleRequest = () => {
           </div>
         ) : (
           <>
-            <div className="  mx-6 mt-8 p-6">
+            <div className="  lg:mx-14 mx-5 mt-8 py-6">
               <div className="flex items-center justify-between">
                 <p className="bg-primary text-white p-3 uppercase">
                   {request.blood_group}
@@ -117,7 +117,7 @@ const SingleRequest = () => {
                     url: `/request/${id}`,
                   }}
                 >
-                  <button className="w-12 h-12 bg-red-50 flex items-center justify-center p-2 group">
+                  <button className="w-12 h-12 bg-red-50 flex items-center justify-center py-2 group">
                     <Image
                       src="/assets/icons/share.svg"
                       alt="Arrow"
@@ -181,13 +181,13 @@ const SingleRequest = () => {
               </div>
             </div>
             <div className="border-gray-200 border-t mt-4">
-              <div className="mx-6 p-6 flex items-center justify-between">
+              <div className="lg:mx-14 mx-5 py-6 flex items-center justify-between">
                 <p className="text-primary font-medium">#{request.id ?? 0}</p>
                 <p className="text-gray-100">
                   আবেদনটি দেখা হয়েছে: {request.views_count ?? 0} বার
                 </p>
               </div>
-              <div className="  gap-x-6 flex items-center justify-center">
+              <div className=" lg:mx-14 mx-5 gap-x-6 flex items-center justify-center">
                 <button
                   onClick={() => updateCallCount(request.id)}
                   className=" bg-red-50 flex items-center justify-center p-3 group relative"
@@ -207,7 +207,7 @@ const SingleRequest = () => {
                       className="group-hover:scale-90 transition-all"
                     />
                   )}
-                  <p className="font-bold text-primary mx-2">কল করো</p>
+                  <p className="font-bold text-primary mx-2">কল করুন</p>
                 </button>
                 <button
                   onClick={() => updateMessageCount(request.id)}
@@ -242,6 +242,7 @@ const SingleRequest = () => {
           icon="/assets/icons/bloodbag.svg"
           iconSize="20"
           text="ব্যাংক হোম"
+          isHome={true}
           isOutline
           onClick={() => router.push("/bank-home")}
         />
@@ -252,6 +253,7 @@ const SingleRequest = () => {
           iconSize="20"
           text="নতুন আবেদন"
           isOutline
+          isHome={true}
           onClick={() => router.push("/request")}
         />
       </div>

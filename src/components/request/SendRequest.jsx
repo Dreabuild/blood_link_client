@@ -1,14 +1,22 @@
 "use client";
 import Button from "@/components/ui/Button";
-import { bloodGroups, districts } from "@/constants/data";
-import React, { useState } from "react";
+import { bloodGroups, districts, genders, relations } from "@/constants/data";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Select from "react-tailwindcss-select";
 
 // Form component
 const SendRequest = () => {
+  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [selectedDistrict, setSelectedDistrict] = useState(null);
+  const [selectedRelation, setSelectedRelation] = useState(null);
+  const [selectedGender, setSelectedGender] = useState(null);
+  // State variables for errors
+  const [groupError, setGroupError] = useState(null);
+  const [districtError, setDistrictError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isUrgent, setIsUrgent] = useState(true);
   const [phoneInputCount, setPhoneInputCount] = useState(1);
@@ -19,11 +27,34 @@ const SendRequest = () => {
     formState: { errors },
   } = useForm();
   const router = useRouter();
+  useEffect(() => {
+    if (Object.keys(errors).length > 0 && !selectedGroup) {
+      setGroupError("রক্তের গ্রুপ নির্বাচন প্রয়োজন");
+    } else {
+      setGroupError(null);
+    }
+    if (Object.keys(errors).length > 0 && !selectedDistrict) {
+      setDistrictError("জেলা নির্বাচন প্রয়োজন");
+    } else {
+      setDistrictError(null);
+    }
+  }, [errors, selectedDistrict, selectedGroup]);
 
   // Handle form submission
   const onSubmit = async (data) => {
     setLoading(true);
 
+    // Validation for select fields
+    if (!selectedGroup) {
+      setGroupError("রক্তের গ্রুপ নির্বাচন প্রয়োজন");
+      setLoading(false);
+      return;
+    }
+    if (!selectedDistrict) {
+      setDistrictError("জেলা নির্বাচন প্রয়োজন");
+      setLoading(false);
+      return;
+    }
     // Collect phone numbers into an array
     const phoneNumbers = [];
     for (let i = 0; i < phoneInputCount; i++) {
@@ -39,8 +70,16 @@ const SendRequest = () => {
       mobile_number: phoneNumbers,
       amount_of_blood: Number(data.amount_of_blood),
       hemoglobin_point: parseFloat(data.hemoglobin_point),
+      blood_group: selectedGroup.value,
+      district: selectedDistrict.value,
     };
-
+    // Add gender and relationship to formattedData only if selectedGender is available
+    if (selectedGender) {
+      formattedData.gender = selectedGender.value;
+    }
+    if (selectedRelation) {
+      formattedData.relationship = selectedRelation.value;
+    }
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/request/create`,
@@ -62,20 +101,40 @@ const SendRequest = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="overflow-auto h-[547px] pb-[10vh] px-8 pt-8">
+      <div className="overflow-auto small:h-[66vh] h-[545px] pb-[10vh] px-5 lg:px-14 pt-8">
         <p className="text-center text-2xl my-6">
           উপযুক্ত তথ্য দিয়ে ফরমটি পূরণ করুন
         </p>
 
         {/* Primary Info Section */}
         <Section title="প্রাথমিক তথ্য">
-          <SelectInput
-            id="blood_group"
+          <Select
+            value={selectedGroup}
+            onChange={(e) => setSelectedGroup(e)}
             options={bloodGroups}
-            placeholder="রক্তের গ্রুপ"
-            register={register("blood_group", { required: true })}
-            error={errors.blood_group && "রক্তের গ্রুপ প্রয়োজন"}
+            isSearchable
+            classNames={{
+              menuButton: () =>
+                `flex w-full px-3 py-1 text-base text-gray-500 border border-gray-500 bg-gray-50 focus:border-primary focus:ring-primary cursor-pointer`,
+              menu: "absolute z-10 w-full shadow-lg border border-gray-500 bg-gray-50 py-2 mt-1 text-base",
+              searchBox:
+                "w-full text-sm focus:border-primary focus:ring-0 focus:outline-none",
+              searchIcon: "w-5 h-5 text-gray-500",
+              searchContainer:
+                "flex items-center gap-x-2 text-gray-500 bg-white border border-gray-500 py-2 px-2.5 mx-2.5 mb-2",
+              listItem: ({ isSelected }) =>
+                `block transition duration-200 p-2 hover:bg-red-400 hover:text-white transition-all cursor-pointer select-none truncate ${
+                  isSelected ? "bg-red-400 text-white" : ""
+                }`,
+            }}
+            noOptionsMessage="কোনো অপশন পাওয়া যায় নি"
+            searchInputPlaceholder="সার্চ করুন"
+            style={{ padding: ".3rem" }}
+            placeholder="রক্তের গ্রুপ নির্বাচন করুন"
           />
+          {groupError && (
+            <span className="text-red-500 text-sm">{groupError}</span>
+          )}
           <TextInput
             id="hemoglobin"
             placeholder="হিমোগ্লোবিন পয়েন্ট (ঐচ্ছিক)"
@@ -98,13 +157,33 @@ const SendRequest = () => {
 
         {/* Other Info Section */}
         <Section title="অন্যান্য তথ্য">
-          <SelectInput
-            id="district"
+          <Select
+            value={selectedDistrict}
+            onChange={(e) => setSelectedDistrict(e)}
             options={districts}
+            isSearchable
+            classNames={{
+              menuButton: () =>
+                `flex w-full px-3 py-1 text-base text-gray-500 border border-gray-500 bg-gray-50 focus:border-primary focus:ring-primary cursor-pointer`,
+              menu: "absolute z-10 w-full shadow-lg border border-gray-500 bg-gray-50 py-2 mt-1 text-base",
+              searchBox:
+                "w-full text-sm focus:border-primary focus:ring-0 focus:outline-none",
+              searchIcon: "w-5 h-5 text-gray-500",
+              searchContainer:
+                "flex items-center gap-x-2 text-gray-500 bg-white border border-gray-500 py-2 px-2.5 mx-2.5 mb-2",
+              listItem: ({ isSelected }) =>
+                `block transition duration-200 p-2 hover:bg-red-400 hover:text-white transition-all cursor-pointer select-none truncate ${
+                  isSelected ? "bg-red-400 text-white" : ""
+                }`,
+            }}
+            noOptionsMessage="কোনো অপশন পাওয়া যায় নি"
+            searchInputPlaceholder="সার্চ করুন"
+            style={{ padding: ".3rem" }}
             placeholder="জেলা নির্বাচন করুন"
-            register={register("district", { required: true })}
-            error={errors.district && "জেলা নির্বাচন প্রয়োজন"}
           />
+          {districtError && (
+            <span className="text-red-500 text-sm">{districtError}</span>
+          )}
           <TextInput
             id="hospital"
             placeholder="হাসপাতালের নাম"
@@ -136,18 +215,94 @@ const SendRequest = () => {
             type="link"
             register={register("facebook_account_url")}
           />
-          <SelectInput
-            id="gender"
-            options={["Male", "Female"]}
+          <Select
+            value={selectedGender}
+            onChange={(e) => setSelectedGender(e)}
+            options={genders}
+            isSearchable
+            classNames={{
+              menuButton: () =>
+                `flex w-full px-3 py-1 text-base text-gray-500 border border-gray-500 bg-gray-50 focus:border-primary focus:ring-primary cursor-pointer`,
+              menu: "absolute z-10 w-full shadow-lg border border-gray-500 bg-gray-50 py-2 mt-1 text-base",
+              searchBox:
+                "w-full text-sm focus:border-primary focus:ring-0 focus:outline-none",
+              searchIcon: "w-5 h-5 text-gray-500",
+              searchContainer:
+                "flex items-center gap-x-2 text-gray-500 bg-white border border-gray-500 py-2 px-2.5 mx-2.5 mb-2",
+              listItem: ({ isSelected }) =>
+                `block transition duration-200 p-2 hover:bg-red-400 hover:text-white transition-all cursor-pointer select-none truncate ${
+                  isSelected ? "bg-red-400 text-white" : ""
+                }`,
+            }}
+            noOptionsMessage="কোনো অপশন পাওয়া যায় নি"
+            searchInputPlaceholder="সার্চ করুন"
+            style={{ padding: ".3rem" }}
             placeholder="রোগীর জেন্ডার (ঐচ্ছিক)"
-            register={register("gender")}
           />
-          <SelectInput
-            id="relationship"
-            options={["মা", "বাবা", "ভাই", "বোন", "কাজিন", "বন্ধু", "অন্যান্য"]}
+          <Select
+            value={selectedRelation}
+            onChange={(e) => setSelectedRelation(e)}
+            options={relations}
+            isSearchable
+            classNames={{
+              menuButton: () =>
+                `flex w-full px-3 py-1 text-base text-gray-500 border border-gray-500 bg-gray-50 focus:border-primary focus:ring-primary cursor-pointer`,
+              menu: "absolute z-10 w-full shadow-lg border border-gray-500 bg-gray-50 py-2 mt-1 text-base",
+              searchBox:
+                "w-full text-sm focus:border-primary focus:ring-0 focus:outline-none",
+              searchIcon: "w-5 h-5 text-gray-500",
+              searchContainer:
+                "flex items-center gap-x-2 text-gray-500 bg-white border border-gray-500 py-2 px-2.5 mx-2.5 mb-2",
+              listItem: ({ isSelected }) =>
+                `block transition duration-200 p-2 hover:bg-red-400 hover:text-white transition-all cursor-pointer select-none truncate ${
+                  isSelected ? "bg-red-400 text-white" : ""
+                }`,
+            }}
+            noOptionsMessage="কোনো অপশন পাওয়া যায় নি"
+            searchInputPlaceholder="সার্চ করুন"
+            style={{ padding: ".3rem" }}
             placeholder="আপনি রোগীর কি হোন? (ঐচ্ছিক)"
-            register={register("relationship")}
           />
+          <div className="my-4">
+            <div className="checkbox-wrapper">
+              <input
+                id="terms-checkbox-37"
+                {...register("urgent")}
+                type="checkbox"
+                className="hidden checkbox"
+                checked={isUrgent}
+                onChange={(e) => setIsUrgent(e.target.checked)}
+              />
+              <label className="terms-label" htmlFor="terms-checkbox-37">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 200 200"
+                  className="checkbox-svg"
+                >
+                  <mask fill="white" id="path-1-inside-1_476_5-37">
+                    <rect height={200} width={200} />
+                  </mask>
+                  <rect
+                    mask="url(#path-1-inside-1_476_5-37)"
+                    strokeWidth={40}
+                    className="checkbox-box"
+                    height={200}
+                    width={200}
+                  />
+                  <path
+                    strokeWidth={15}
+                    d="M52 111.018L76.9867 136L149 64"
+                    className="checkbox-tick"
+                  />
+                </svg>
+                <span className="text-primary mx-2">
+                  যত দ্রুত সম্ভব রক্তের প্রয়োজন
+                </span>
+              </label>
+            </div>
+          </div>
+
           {!isUrgent && (
             <TextInput
               id="delivery_time"
@@ -161,32 +316,6 @@ const SendRequest = () => {
               }
             />
           )}
-          <div className="my-4">
-            <label className="cursor-pointer flex items-center gap-x-2">
-              <input
-                {...register("urgent", { required: false })}
-                type="checkbox"
-                className="hidden checkbox"
-                checked={isUrgent}
-                onChange={(e) => setIsUrgent(e.target.checked)}
-              />
-              <svg
-                viewBox="0 0 64 64"
-                height="1.1em"
-                width="1.1em"
-                className="overflow-visible"
-              >
-                <path
-                  d="M 0 16 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 16 L 32 48 L 64 16 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 16"
-                  pathLength="575.0541381835938"
-                  className="path"
-                />
-              </svg>
-              <span className="text-primary">
-                যত দ্রুত সম্ভব রক্তের প্রয়োজন
-              </span>
-            </label>
-          </div>
           <textarea
             id="description"
             className="block mt-8 w-full px-4 py-3 text-base text-gray-500 border border-gray-500 bg-gray-50 focus:border-primary focus:ring-primary "
@@ -218,6 +347,19 @@ const Section = ({ title, children }) => (
 // TextInput component
 const TextInput = ({ id, placeholder, type = "text", register, error }) => (
   <>
+    {/* <div className="input-group">
+      <input
+        type={type}
+        id={id}
+        name={id}
+        className={`input rounded-none w-full ${
+          error ? "border-red-500" : "border-gray-500"
+        }`}
+        autoComplete="off"
+        {...register}
+      />
+      <label className="user-label">{placeholder}</label>
+    </div> */}
     <input
       type={type}
       id={id}
@@ -225,25 +367,6 @@ const TextInput = ({ id, placeholder, type = "text", register, error }) => (
       placeholder={placeholder}
       {...register}
     />
-    {error && <span className="text-red-500 text-sm">{error}</span>}
-  </>
-);
-
-// SelectInput component
-const SelectInput = ({ id, options, placeholder, register, error }) => (
-  <>
-    <select
-      id={id}
-      className="block w-full px-4 py-3 text-base text-gray-500 border border-gray-500 bg-gray-50 focus:border-primary focus:ring-primary cursor-pointer"
-      {...register}
-    >
-      <option value="">{placeholder}</option>
-      {options.map((option, index) => (
-        <option value={option} key={index}>
-          {option}
-        </option>
-      ))}
-    </select>
     {error && <span className="text-red-500 text-sm">{error}</span>}
   </>
 );
@@ -261,7 +384,7 @@ const PhoneNumbers = ({
         <div
           className={`flex items-center ${
             phoneInputCount !== 1 && "border-none"
-          } border`}
+          } border border-gray-500`}
         >
           <input
             type="tel"

@@ -21,9 +21,9 @@ const Card = ({ bank }) => {
     }
   };
   return (
-    <div className="group border mx-6 my-2  hover:bg-[#F4F4F4] transition-all  relative">
+    <div className="group border lg:mx-14 mx-5 my-2  hover:bg-[#F4F4F4] transition-all  relative">
       <div className="flex items-center justify-between relative">
-        <div className="w-[55%] relative z-10 p-7">
+        <div className="lg:w-[55%] w-[70%] relative z-10 p-3 lg:p-7">
           <p className="font-semibold text-primary mb-2 capitalize">
             #{bank?.id}
           </p>
@@ -34,14 +34,14 @@ const Card = ({ bank }) => {
           <div className="mt-6 flex items-center justify-between  gap-x-2">
             <Button
               text="কল"
-              className="w-full p-2"
+              className="w-full px-3 py-2"
               onClick={handleCall}
               icon="/assets/icons/call.svg"
               iconSize={19}
             />
             <Button
               text="মেসেজ"
-              className="w-full p-2"
+              className="w-full px-3 py-2"
               onClick={handleSMS}
               icon="/assets/icons/message.svg"
               iconSize={19}
@@ -52,7 +52,7 @@ const Card = ({ bank }) => {
           src="/assets/map.png"
           alt="map"
           objectFit="cover"
-          className="gradient-mask-l-50 w-[65%] absolute right-0 top-0 h-full"
+          className="gradient-mask-l-50 lg:w-[65%] w-[50%] absolute right-0 top-0 object-cover h-full"
         />
       </div>
     </div>

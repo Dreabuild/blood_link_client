@@ -32,7 +32,7 @@ const BankHomeComp = () => {
   console.log(banks);
   return (
     <div className="overflow-hidden">
-      <div className="grid grid-cols-1   overflow-auto h-[540px] pb-[10vh]">
+      <div className="grid grid-cols-1   overflow-auto small:h-[57vh] h-[540px] pb-[10vh]">
         <p className="text-center text-primary text-xl my-6">
           সকল ব্লাড ব্যাংক
         </p>
@@ -52,6 +52,7 @@ const BankHomeComp = () => {
           icon="/assets/icons/bloodbag.svg"
           iconSize="20"
           text="ব্যাংক হোম"
+          isHome={true}
           isOutline
           onClick={() => router.push("/bank-home")}
         />
@@ -61,6 +62,7 @@ const BankHomeComp = () => {
           icon="/assets/icons/folder.svg"
           iconSize="20"
           text="নতুন আবেদন"
+          isHome={true}
           isOutline
           onClick={() => router.push("/request")}
         />
