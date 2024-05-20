@@ -160,7 +160,7 @@ const SendRequest = () => {
           <Select
             value={selectedDistrict}
             onChange={(e) => setSelectedDistrict(e)}
-            options={districts}
+            options={districts.slice(1, 65)}
             isSearchable
             classNames={{
               menuButton: () =>
