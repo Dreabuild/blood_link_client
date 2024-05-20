@@ -18,7 +18,7 @@ const SendRequest = () => {
   const [groupError, setGroupError] = useState(null);
   const [districtError, setDistrictError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [isUrgent, setIsUrgent] = useState(true);
+  const [isUrgent, setIsUrgent] = useState(false);
   const [phoneInputCount, setPhoneInputCount] = useState(1);
   const {
     register,
