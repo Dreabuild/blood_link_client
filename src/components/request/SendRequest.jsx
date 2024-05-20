@@ -371,7 +371,7 @@ const TextInput = ({ id, placeholder, type = "text", register, error }) => (
   </>
 );
 
-// PhoneNumbers component
+// PhoneNumber component
 const PhoneNumbers = ({
   phoneInputCount,
   setPhoneInputCount,
