@@ -54,6 +54,7 @@ const Card = ({ bank }) => {
           objectFit="cover"
           className="gradient-mask-l-50 lg:w-[65%] w-[50%] absolute right-0 top-0 object-cover h-full"
         />
+
         {/* <Image
           src={bank?.image}
           alt="map"
