@@ -14,7 +14,7 @@ const Button = ({
   isOutline,
   style,
   onClick,
-  type,
+  type = "button",
   isLoading = false,
   isDisabled = false,
 }) => {
