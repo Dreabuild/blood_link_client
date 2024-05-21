@@ -7,6 +7,7 @@ import axios from "axios"; // Import axios
 import { RWebShare } from "react-web-share";
 import Link from "next/link";
 import Loader from "../ui/Loader";
+import dayjs from "dayjs";
 
 const SingleRequest = () => {
   const router = useRouter();
@@ -15,7 +16,6 @@ const SingleRequest = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingPhone, setLoadingPhone] = useState(false);
-  const [loadingMsg, setLoadingMsg] = useState(false);
 
   useEffect(() => {
     const getSingleRequest = async () => {
@@ -39,28 +39,6 @@ const SingleRequest = () => {
       getSingleRequest();
     }
   }, [id]); // Added 'id' as a dependency for useEffect
-
-  const updateMessageCount = async (id) => {
-    setLoadingMsg(true);
-    try {
-      const res = await axios.patch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/request/message/${id}`
-      );
-      if (res.status === 200) {
-        setRequest((prev) => ({
-          ...prev,
-          message_count: prev.message_count + 1,
-        }));
-        window.open(
-          `https://wa.me/+${request.whatsapp_number.replace(/\D/g, "")}`,
-          "_blank"
-        );
-      }
-    } catch (e) {
-      console.log(e);
-    }
-    setLoadingMsg(false);
-  };
 
   const updateCallCount = async (id) => {
     setLoadingPhone(true);
@@ -131,18 +109,20 @@ const SingleRequest = () => {
               <div className="mt-8 space-y-2">
                 <p className="text-gray-500">
                   রক্তের গ্রুপ:{" "}
-                  <span className="text-primary">{request.blood_group}</span>
+                  <span className="text-primary">
+                    {request.blood_group ?? "দেওয়া হয় নি"}
+                  </span>
                 </p>
                 <p className="text-gray-500">
                   হিমোগ্লোবিন পয়েন্ট:{" "}
                   <span className="text-primary">
-                    {request.hemoglobin_point}
+                    {request.hemoglobin_point ?? "দেওয়া হয় নি"}
                   </span>
                 </p>
                 <p className="text-gray-500">
                   রোগীর সমস্যা:{" "}
                   <span className="text-primary">
-                    {request.patient_problem}
+                    {request.patient_problem ?? "দেওয়া হয় নি"}
                   </span>
                 </p>
                 <p className="text-gray-500">
@@ -152,31 +132,42 @@ const SingleRequest = () => {
                       ? "মহিলা"
                       : request.gender === "male"
                       ? "পুরুষ"
-                      : "অন্যান্য"}
+                      : "দেওয়া হয় নি"}
                   </span>
                 </p>
                 <p className="text-gray-500">
                   রক্তের পরিমান:{" "}
                   <span className="text-primary">
-                    {request.amount_of_blood ?? 0} ব্যাগ
+                    {request.amount_of_blood ?? "দেওয়া হয় নি"} ব্যাগ
                   </span>
                 </p>
                 <p className="text-gray-500">
-                  জেলা: <span className="text-primary">{request.district}</span>
+                  জেলা:{" "}
+                  <span className="text-primary">
+                    {request.district ?? "দেওয়া হয় নি"}
+                  </span>
                 </p>
                 <p className="text-gray-500">
                   রক্তদানের তারিখ:{" "}
                   <span className="text-primary">
-                    {request.urgent ? "যত দ্রুত সম্ভব" : request?.delivery_time}
+                    {request.urgent
+                      ? "যত দ্রুত সম্ভব"
+                      : dayjs(request?.delivery_time).format("DD/MM/YYYY")}
                   </span>
                 </p>
                 <p className="text-gray-500">
                   রক্তদানের স্থান:{" "}
-                  <span className="text-primary">{request.hospital_name}</span>
+                  <span className="text-primary">
+                    {request.hospital_name ?? "দেওয়া হয় নি"}
+                  </span>
                 </p>
                 <p className="text-gray-500">
                   সংক্ষিপ্ত বিবরণ:{" "}
-                  <span className="text-gray-300">{request.description}</span>
+                  <span className="text-gray-300">
+                    {!request.description || request.description === ""
+                      ? "দেওয়া হয় নি"
+                      : request.description}
+                  </span>
                 </p>
               </div>
             </div>
@@ -209,26 +200,6 @@ const SingleRequest = () => {
                   )}
                   <p className="font-bold text-primary mx-2">কল করুন</p>
                 </button>
-                <button
-                  onClick={() => updateMessageCount(request.id)}
-                  className=" bg-[#E6F9EA] flex items-center justify-center p-3 group relative"
-                  disabled={loadingMsg}
-                >
-                  <div className="absolute -top-2 -right-2 bg-[#40C351] rounded-3xl  text-white text-xs px-2 py-1">
-                    {request?.message_count ?? 0}
-                  </div>
-                  {loadingMsg ? (
-                    <div className="btnLoader"></div>
-                  ) : (
-                    <Image
-                      src="/assets/icons/WhatsApp.svg"
-                      alt="Arrow"
-                      width={24}
-                      height={24}
-                      className="group-hover:scale-90 transition-all"
-                    />
-                  )}
-                </button>
               </div>
             </div>
           </>
@@ -239,12 +210,12 @@ const SingleRequest = () => {
         <Button
           className="w-1/2"
           style={{ borderRight: "3px solid #BF0000" }}
-          icon="/assets/icons/bloodbag.svg"
+          icon="/assets/icons/home.svg"
           iconSize="20"
-          text="ব্যাংক হোম"
+          text="হোম"
           isHome={true}
           isOutline
-          onClick={() => router.push("/bank-home")}
+          onClick={() => router.push("/")}
         />
 
         <Button

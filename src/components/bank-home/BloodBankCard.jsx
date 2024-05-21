@@ -34,14 +34,14 @@ const Card = ({ bank }) => {
           <div className="mt-6 flex items-center justify-between  gap-x-2">
             <Button
               text="কল"
-              className="w-full px-3 py-2"
+              className="w-full px-4 py-1.5"
               onClick={handleCall}
               icon="/assets/icons/call.svg"
               iconSize={19}
             />
             <Button
               text="মেসেজ"
-              className="w-full px-3 py-2"
+              className="w-full px-4 py-1.5"
               onClick={handleSMS}
               icon="/assets/icons/message.svg"
               iconSize={19}
