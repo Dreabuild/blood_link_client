@@ -7,14 +7,21 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Select from "react-tailwindcss-select";
+import Datepicker from "react-tailwindcss-datepicker";
 
 // Form component
 const SendRequest = () => {
+  const [date, setDate] = useState({
+    startDate: null,
+    endDate: null,
+  });
+
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [selectedRelation, setSelectedRelation] = useState(null);
   const [selectedGender, setSelectedGender] = useState(null);
   // State variables for errors
+  const [dateError, setDateError] = useState(null);
   const [groupError, setGroupError] = useState(null);
   const [districtError, setDistrictError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -38,12 +45,34 @@ const SendRequest = () => {
     } else {
       setDistrictError(null);
     }
-  }, [errors, selectedDistrict, selectedGroup]);
+    if (Object.keys(errors).length > 0 && !isUrgent && !date.startDate) {
+      setDateError("রক্ত প্রয়োজনের সময় প্রয়োজন");
+      setLoading(false);
+      return;
+    } else if (
+      Object.keys(errors).length > 0 &&
+      !isUrgent &&
+      new Date(date.startDate) < new Date()
+    ) {
+      setDateError("সঠিক রক্ত প্রয়োজনের সময় প্রয়োজন");
+      setLoading(false);
+      return;
+    } else {
+      setGroupError(null);
+    }
+  }, [date, errors, isUrgent, selectedDistrict, selectedGroup]);
 
   // Handle form submission
   const onSubmit = async (data) => {
     setLoading(true);
 
+    // Validation for date
+
+    if (!isUrgent && !date.startDate) {
+      setDateError("রক্ত প্রয়োজনের সময় প্রয়োজন");
+      setLoading(false);
+      return;
+    }
     // Validation for select fields
     if (!selectedGroup) {
       setGroupError("রক্তের গ্রুপ নির্বাচন প্রয়োজন");
@@ -68,6 +97,7 @@ const SendRequest = () => {
     const formattedData = {
       ...data,
       mobile_number: phoneNumbers,
+      urgent: isUrgent,
       amount_of_blood: Number(data.amount_of_blood),
       hemoglobin_point: parseFloat(data.hemoglobin_point),
       blood_group: selectedGroup.value,
@@ -79,6 +109,9 @@ const SendRequest = () => {
     }
     if (selectedRelation) {
       formattedData.relationship = selectedRelation.value;
+    }
+    if (date.startDate) {
+      formattedData.delivery_time = new Date(date.startDate).toISOString();
     }
     try {
       const res = await axios.post(
@@ -267,7 +300,6 @@ const SendRequest = () => {
             <div className="checkbox-wrapper">
               <input
                 id="terms-checkbox-37"
-                {...register("urgent")}
                 type="checkbox"
                 className="hidden checkbox"
                 checked={isUrgent}
@@ -304,17 +336,24 @@ const SendRequest = () => {
           </div>
 
           {!isUrgent && (
-            <TextInput
-              id="delivery_time"
-              placeholder="রক্ত প্রয়োজনের সময় সিলেক্ট করুন"
-              type="date"
-              register={register("delivery_time", { required: !isUrgent })}
-              error={
-                !isUrgent &&
-                errors.delivery_time &&
-                "রক্ত প্রয়োজনের সময় প্রয়োজন"
-              }
-            />
+            <>
+              <Datepicker
+                inputClassName={
+                  "w-full px-4 py-3 text-base text-gray-500 border border-gray-500 bg-gray-50 focus:border-primary focus:ring-primary cursor-pointer"
+                }
+                placeholder={"রক্ত প্রয়োজনের সময় সিলেক্ট করুন"}
+                useRange={false}
+                asSingle={true}
+                value={date}
+                onChange={(e) => setDate(e)}
+                primaryColor={"red"}
+                dateLooking="backward"
+                startFrom={new Date()}
+              />
+              {dateError && (
+                <span className="text-red-500 text-sm">{dateError}</span>
+              )}
+            </>
           )}
           <textarea
             id="description"
@@ -325,12 +364,25 @@ const SendRequest = () => {
           />
         </Section>
       </div>
-      <Button
-        className="w-full"
-        type="submit"
-        text="সাবমিট"
-        isLoading={loading}
-      />
+      <div className="w-full absolute bottom-0 border-t-[3px] border-primary flex items-center justify-between">
+        <Button
+          className="w-1/2"
+          style={{ borderRight: "3px solid #BF0000" }}
+          icon="LiaHospitalAltSolid"
+          iconSize="20"
+          text="হোম"
+          isHome={true}
+          isOutline
+          onClick={() => router.push("/")}
+        />
+
+        <Button
+          className="w-1/2"
+          type="submit"
+          text="সাবমিট"
+          isLoading={loading}
+        />
+      </div>
       <Toaster />
     </form>
   );
@@ -347,6 +399,8 @@ const Section = ({ title, children }) => (
 // TextInput component
 const TextInput = ({ id, placeholder, type = "text", register, error }) => (
   <>
+    {/* Code of new input fields. not working if you don't add required.  */}
+
     {/* <div className="input-group">
       <input
         type={type}
@@ -360,6 +414,9 @@ const TextInput = ({ id, placeholder, type = "text", register, error }) => (
       />
       <label className="user-label">{placeholder}</label>
     </div> */}
+
+    {/* Code of old input  */}
+
     <input
       type={type}
       id={id}

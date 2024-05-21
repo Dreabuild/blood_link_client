@@ -49,12 +49,12 @@ const BankHomeComp = () => {
         <Button
           className="w-1/2"
           style={{ borderRight: "3px solid #BF0000" }}
-          icon="/assets/icons/bloodbag.svg"
+          icon="LiaHospitalAltSolid"
           iconSize="20"
-          text="ব্যাংক হোম"
+          text="হোম"
           isHome={true}
           isOutline
-          onClick={() => router.push("/bank-home")}
+          onClick={() => router.push("/")}
         />
 
         <Button
