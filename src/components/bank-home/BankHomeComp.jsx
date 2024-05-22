@@ -33,7 +33,7 @@ const BankHomeComp = () => {
   return (
     <div className="overflow-hidden">
       <div className="grid grid-cols-1   overflow-auto small:h-[57vh] h-[540px] pb-[10vh]">
-        <p className="text-center text-primary text-xl my-6">
+        <p className="text-primary text-center text-2xl my-6 ">
           সকল ব্লাড ব্যাংক
         </p>
         {loading ? (

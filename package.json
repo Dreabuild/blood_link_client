@@ -26,7 +26,8 @@
     "react-tailwindcss-datepicker": "^1.6.6",
     "react-tailwindcss-select": "^1.8.5",
     "react-web-share": "^2.0.2",
-    "tailwind-gradient-mask-image": "^1.2.0"
+    "tailwind-gradient-mask-image": "^1.2.0",
+    "use-media-query-hook": "^0.3.0"
   },
   "devDependencies": {
     "eslint": "^8",

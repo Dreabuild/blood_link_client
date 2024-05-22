@@ -2,9 +2,11 @@
 import React from "react";
 import Button from "../ui/Button";
 import Image from "next/image";
+import useMediaQuery from "use-media-query-hook";
 
 const Card = ({ bank }) => {
   console.log(bank);
+  const isSmallDevice = useMediaQuery('(max-width: 640px)');
   const handleCall = () => {
     if (bank?.contact[0]) {
       window.location.href = `tel:${bank?.contact[0]}`;
@@ -31,20 +33,20 @@ const Card = ({ bank }) => {
           <p className="font-medium text-gray-200 mt-1 capitalize">
             {bank?.address}
           </p>
-          <div className="mt-6 flex items-center justify-between  gap-x-2">
+          <div className="mt-6 flex items-center lg:md:justify-between  gap-x-2">
             <Button
               text="কল"
-              className="w-full px-4 py-1.5"
+              className="lg:md:w-full w-[38%] lg:md:px-4  lg:md:py-1.5 py-2"
               onClick={handleCall}
               icon="/assets/icons/call.svg"
-              iconSize={19}
+              iconSize={isSmallDevice ? 15 : 19}
             />
             <Button
               text="মেসেজ"
-              className="w-full px-4 py-1.5"
+              className="lg:md:w-full w-[38%] lg:md:px-4 lg:md:py-1.5 py-2"
               onClick={handleSMS}
               icon="/assets/icons/message.svg"
-              iconSize={19}
+              iconSize={isSmallDevice ? 15 : 19}
             />
           </div>
         </div>
