@@ -1,3 +1,4 @@
+// 
 import { Noto_Sans_Bengali } from "next/font/google";
 import "./globals.css";
 import NextTopLoader from "nextjs-toploader";
