@@ -134,7 +134,7 @@ const SendRequest = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="overflow-auto small:h-[66vh] h-[545px] pb-[10vh] px-5 lg:px-14 pt-8">
+      <div className="overflow-auto small:h-[66vh] h-[545px] pb-[10vh] px-5 lg:px-14 pt-6">
         <p className="text-center text-2xl my-6">
           উপযুক্ত তথ্য দিয়ে ফরমটি পূরণ করুন
         </p>
@@ -294,7 +294,7 @@ const SendRequest = () => {
             noOptionsMessage="কোনো অপশন পাওয়া যায় নি"
             searchInputPlaceholder="সার্চ করুন"
             style={{ padding: ".3rem" }}
-            placeholder="আপনি রোগীর কি হোন? (ঐচ্ছিক)"
+            placeholder="আপনি রোগীর কি হন? (ঐচ্ছিক)"
           />
           <div className="my-4">
             <div className="checkbox-wrapper">
@@ -460,7 +460,7 @@ const PhoneNumbers = ({
           />
           {index === 0 && phoneInputCount < 2 && (
             <Button
-              className="m-2 px-4 text-sm py-[10px] whitespace-nowrap"
+              className="m-2 !px-5 text-sm py-[10px] whitespace-nowrap"
               text="আরো যোগ করুন"
               onClick={() => setPhoneInputCount(phoneInputCount + 1)}
               icon="/assets/icons/plus.svg"
