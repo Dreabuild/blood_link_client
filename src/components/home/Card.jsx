@@ -18,7 +18,8 @@ const Card = ({ data }) => {
         <div className="flex justify-between gap-6 mt-8 ">
           <div>
             <p className="font-medium">
-              {data?.hospital_name} {", "} {data?.district}
+              {data?.hospital_name}
+              {", "} {data?.district}
             </p>
             <p className="">{data?.district}</p>
           </div>
