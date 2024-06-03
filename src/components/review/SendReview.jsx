@@ -25,7 +25,7 @@ const SendReview = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/request/create`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/review/create`,
         data
       );
       if (res.status === 200 || res.status === 201) {
@@ -68,8 +68,8 @@ const SendReview = () => {
             id="phone"
             type="tel"
             placeholder="আপনার মোবাইল নাম্বার"
-            register={register("phone", { required: true })}
-            error={errors.phone && "আপনার মোবাইল নাম্বার প্রয়োজন"}
+            register={register("phone_number", { required: true })}
+            error={errors.phone_number && "আপনার মোবাইল নাম্বার প্রয়োজন"}
           />
 
           <textarea

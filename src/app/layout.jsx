@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
           speed={200}
           shadow="0 0 10px #BF0000,0 0 5px #BF0000"
         />
-        <div className="flex flex-col items-center lg:justify-center mx-auto h-screen  max-w-[580px]">
+        <div className="flex flex-col items-center lg:justify-center mx-auto lg:md:h-[93vh] h-[95vh]  max-w-[580px] lg:md:mb-0 mb-8">
           <div className="w-full border-[3px] border-primary small:h-[85vh] h-[670px] relative ">
             <div className="flex items-center justify-between lg:px-14 px-5 py-4 border-b-[3px] border-primary">
               <Link href="/">
@@ -45,7 +45,7 @@ export default function RootLayout({ children }) {
               </Link>
               <div className="flex items-center justify-end gap-x-2">
                 <a
-                  className=" bg-[#E6F9EA] flex items-center justify-center px-2 py-1.5 group relative"
+                  className=" bg-[#E6F9EA] flex items-center justify-center px-2 py-1.5 group relative lg:md:w-full w-[41px]"
                   href="https://whatsapp.com/channel/0029VafBUXv2v1InsGASJv1I"
                   target="_blank"
                 >
@@ -66,7 +66,7 @@ export default function RootLayout({ children }) {
                     className="group-hover:scale-90 transition-all"
                   />
 
-                  <p className="font-bold text-primary mx-2">যোগাযোগ করুন</p>
+                  <p className="font-bold text-primary mx-2 text-[12px]">যোগাযোগ করুন</p>
                 </button>
               </div>
             </div>
@@ -94,6 +94,15 @@ export default function RootLayout({ children }) {
                 />
               </Link>
             </div>
+          </div>
+        </div>
+        <div className="border-t-[#BF0000] border-[1px] lg:md:py-[25px] py-[20px] px-2">
+          <div className="text-[14px] text-[#BF0000] flex items-center justify-center">
+            <Link href="https://bloodlinkfoundation.com/" className="hover:underline">Corporate Page</Link>
+            <span className="mx-[14px] text-[#333]">|</span>
+            <Link href="https://bloodlinkfoundation.com/privacy-policy" className="hover:underline">Privacy Policy</Link>
+            <span className="mx-[14px] text-[#333]">|</span>
+            <Link href="/review" className="hover:underline">Review</Link>
           </div>
         </div>
         <Toaster />
