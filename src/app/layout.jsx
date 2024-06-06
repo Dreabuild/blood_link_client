@@ -71,7 +71,7 @@ export default function RootLayout({ children }) {
                   />
 
                   <p className="font-bold text-primary mx-2 text-[14px] whitespace-nowrap">
-                    ইমেইল করুন
+                    ই-মেইল করুন
                   </p>
                 </a>
               </div>
