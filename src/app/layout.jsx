@@ -57,17 +57,23 @@ export default function RootLayout({ children }) {
                     className="group-hover:scale-90 transition-all"
                   />
                 </a>
-                <button className=" bg-red-50 flex items-center justify-center px-4 py-2 group">
+                <a
+                  className=" bg-red-50 flex items-center justify-center px-4 py-[7px] lg:py-[10px] group"
+                  href="mailto:team@bloodlink.app"
+                  target="_blank"
+                >
                   <Image
-                    src="/assets/icons/phone.svg"
+                    src="/assets/icons/mail.svg"
                     alt="Arrow"
-                    width={20}
-                    height={20}
+                    width={24}
+                    height={24}
                     className="group-hover:scale-90 transition-all"
                   />
 
-                  <p className="font-bold text-primary mx-2 text-[12px]">যোগাযোগ করুন</p>
-                </button>
+                  <p className="font-bold text-primary mx-2 text-[14px] whitespace-nowrap">
+                    ইমেইল করুন
+                  </p>
+                </a>
               </div>
             </div>
             <div>{children}</div>
@@ -98,11 +104,23 @@ export default function RootLayout({ children }) {
         </div>
         <div className="border-t-[#BF0000] border-[1px] lg:md:py-[25px] py-[20px] px-2">
           <div className="text-[14px] text-[#BF0000] flex items-center justify-center">
-            <Link href="https://bloodlinkfoundation.com/" className="hover:underline">Corporate Page</Link>
+            <Link
+              href="https://bloodlinkfoundation.com/"
+              className="hover:underline"
+            >
+              Corporate Page
+            </Link>
             <span className="mx-[14px] text-[#333]">|</span>
-            <Link href="https://bloodlinkfoundation.com/privacy-policy" className="hover:underline">Privacy Policy</Link>
+            <Link
+              href="https://bloodlinkfoundation.com/privacy-policy"
+              className="hover:underline"
+            >
+              Privacy Policy
+            </Link>
             <span className="mx-[14px] text-[#333]">|</span>
-            <Link href="/review" className="hover:underline">Review</Link>
+            <Link href="/review" className="hover:underline">
+              Review
+            </Link>
           </div>
         </div>
         <Toaster />
