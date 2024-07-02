@@ -48,7 +48,7 @@ export default function RootLayout({ children }) {
               <div className="flex items-center justify-end gap-x-2">
                 <a
                   className=" bg-red-50 flex items-center justify-center px-2 py-[7px] lg:py-[10px] group"
-                  href="/donar-registration"
+                  href="/donor-registration"
                 >
                   <FaPlus className="lg:md:text-xl text-[16px] text-primary" />
                   <p className="font-bold text-primary ml-2 lg:md:text-[14px] text-[12px] whitespace-nowrap">

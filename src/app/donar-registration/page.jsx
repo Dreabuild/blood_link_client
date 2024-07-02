@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head"
-import DonarRegComp from "@/components/donar/DonarRegComp";
+import DonarRegComp from "@/components/donor/DonarRegComp";
 
 const DonarRegPage = () => {
   return (
