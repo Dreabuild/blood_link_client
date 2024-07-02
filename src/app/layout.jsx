@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
         />
         <div className="flex flex-col items-center lg:justify-center mx-auto lg:md:h-[93vh] h-[95vh]  max-w-[580px] lg:md:mb-0 mb-8">
           <div className="w-full border-[3px] border-primary small:h-[85vh] h-[670px] relative ">
-            <div className="flex items-center justify-between lg:px-14 px-5 py-4 border-b-[3px] border-primary gap-x-4">
+            <div className="flex items-center justify-between lg:px-14 px-5 py-4 border-b-[3px] border-primary lg:md:gap-x-4 gap-x-2">
               <Link href="/">
                 <Image
                   src="/assets/logo.png"
@@ -50,8 +50,8 @@ export default function RootLayout({ children }) {
                   className=" bg-red-50 flex items-center justify-center px-2 py-[7px] lg:py-[10px] group"
                   href="/donar-registration"
                 >
-                  <FaPlus className="text-xl text-primary" />
-                  <p className="font-bold text-primary ml-2 text-[14px] whitespace-nowrap">
+                  <FaPlus className="lg:md:text-xl text-[16px] text-primary" />
+                  <p className="font-bold text-primary ml-2 lg:md:text-[14px] text-[12px] whitespace-nowrap">
                   ডোনার রেজিস্ট্রেশন
                   </p>
                 </a>
@@ -60,9 +60,9 @@ export default function RootLayout({ children }) {
                   href="mailto:contact@bloodlink.app"
                   target="_blank"
                 >
-                  <FaRegEnvelope className="text-xl text-primary" />
+                  <FaRegEnvelope className="lg:md:text-xl text-[16px] text-primary" />
 
-                  <p className="font-bold text-primary ml-2 text-[14px] whitespace-nowrap">
+                  <p className="font-bold text-primary ml-2 lg:md:text-[14px] text-[12px] whitespace-nowrap lg:md:block hidden">
                     ই-মেইল করুন
                   </p>
                 </a>
