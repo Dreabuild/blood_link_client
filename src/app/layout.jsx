@@ -62,9 +62,6 @@ export default function RootLayout({ children }) {
                 >
                   <FaRegEnvelope className="lg:md:text-xl text-[16px] text-primary" />
 
-                  <p className="font-bold text-primary ml-2 lg:md:text-[14px] text-[12px] whitespace-nowrap lg:md:block hidden">
-                    ই-মেইল করুন
-                  </p>
                 </a>
               </div>
             </div>
