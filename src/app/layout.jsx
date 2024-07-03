@@ -8,6 +8,7 @@ import Link from "next/link";
 import Script from "next/script";
 import { FaPlus } from "react-icons/fa6";
 import { FaRegEnvelope } from "react-icons/fa";
+import { IoMdCall } from "react-icons/io";
 
 const banglaFont = Noto_Sans_Bengali({ subsets: ["bengali"] });
 
@@ -57,10 +58,10 @@ export default function RootLayout({ children }) {
                 </a>
                 <a
                   className=" bg-red-50 flex items-center justify-center px-4 py-[7px] lg:py-[10px] group"
-                  href="mailto:contact@bloodlink.app"
+                  href="tel:09647186307"
                   target="_blank"
                 >
-                  <FaRegEnvelope className="lg:md:text-xl text-[16px] text-primary" />
+                  <IoMdCall className="lg:md:text-xl text-[16px] text-primary" />
 
                 </a>
               </div>
