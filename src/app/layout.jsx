@@ -104,19 +104,21 @@ export default function RootLayout({ children }) {
         </div>
         <div className="border-t-[#BF0000] border-[1px] lg:md:py-[25px] py-[20px] px-2">
           <div className="text-[14px] text-[#BF0000] flex items-center justify-center">
-            <Link
+            <a
               href="https://bloodlinkfoundation.com/"
               className="hover:underline"
+              target="_blank"
             >
               Corporate Page
-            </Link>
+            </a>
             <span className="mx-[14px] text-[#333]">|</span>
-            <Link
-              href="https://bloodlinkfoundation.com/privacy-policy"
+            <a
+              href="https://blorg.co/privacy-policy"
               className="hover:underline"
+              target="_blank"
             >
               Privacy Policy
-            </Link>
+            </a>
             <span className="mx-[14px] text-[#333]">|</span>
             <Link href="/review" className="hover:underline">
               Review
