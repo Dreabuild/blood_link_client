@@ -6,6 +6,9 @@ import { Toaster } from "react-hot-toast";
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
+import { FaPlus } from "react-icons/fa6";
+import { FaRegEnvelope } from "react-icons/fa";
+import { IoMdCall } from "react-icons/io";
 
 const banglaFont = Noto_Sans_Bengali({ subsets: ["bengali"] });
 
@@ -34,7 +37,7 @@ export default function RootLayout({ children }) {
         />
         <div className="flex flex-col items-center lg:justify-center mx-auto lg:md:h-[93vh] h-[95vh]  max-w-[580px] lg:md:mb-0 mb-8">
           <div className="w-full border-[3px] border-primary small:h-[85vh] h-[670px] relative ">
-            <div className="flex items-center justify-between lg:px-14 px-5 py-4 border-b-[3px] border-primary">
+            <div className="flex items-center justify-between lg:px-14 px-5 py-4 border-b-[3px] border-primary lg:md:gap-x-4 gap-x-2">
               <Link href="/">
                 <Image
                   src="/assets/logo.png"
@@ -45,34 +48,20 @@ export default function RootLayout({ children }) {
               </Link>
               <div className="flex items-center justify-end gap-x-2">
                 <a
-                  className=" bg-[#E6F9EA] flex items-center justify-center px-2 py-1.5 group relative lg:md:w-full w-[41px]"
-                  href="https://whatsapp.com/channel/0029VafBUXv2v1InsGASJv1I"
-                  target="_blank"
+                  className=" bg-red-50 flex items-center justify-center px-2 py-[7px] lg:py-[10px] group"
+                  href="/donor-registration"
                 >
-                  <Image
-                    src="/assets/icons/WhatsApp.svg"
-                    alt="Arrow"
-                    width={29}
-                    height={29}
-                    className="group-hover:scale-90 transition-all"
-                  />
+                  <FaPlus className="lg:md:text-xl text-[16px] text-primary" />
+                  <p className="font-bold text-primary ml-2 lg:md:text-[14px] text-[12px] whitespace-nowrap">
+                    ডোনার রেজিস্ট্রেশন
+                  </p>
                 </a>
                 <a
                   className=" bg-red-50 flex items-center justify-center px-4 py-[7px] lg:py-[10px] group"
-                  href="mailto:team@bloodlink.app"
+                  href="tel:09647186307"
                   target="_blank"
                 >
-                  <Image
-                    src="/assets/icons/mail.svg"
-                    alt="Arrow"
-                    width={24}
-                    height={24}
-                    className="group-hover:scale-90 transition-all"
-                  />
-
-                  <p className="font-bold text-primary mx-2 text-[14px] whitespace-nowrap">
-                    ই-মেইল করুন
-                  </p>
+                  <IoMdCall className="lg:md:text-xl text-[16px] text-primary" />
                 </a>
               </div>
             </div>
@@ -109,7 +98,7 @@ export default function RootLayout({ children }) {
               className="hover:underline"
               target="_blank"
             >
-              Corporate Page
+              BloodLink Foundation
             </a>
             <span className="mx-[14px] text-[#333]">|</span>
             <a
