@@ -94,7 +94,7 @@ export default function RootLayout({ children }) {
         <div className="border-t-[#BF0000] border-[1px] lg:md:py-[25px] py-[20px] px-2">
           <div className="text-[14px] text-[#BF0000] flex items-center justify-center">
             <a
-              href="https://bloodlinkfoundation.com/"
+              href="https://www.bloodlinkapp.org/"
               className="hover:underline"
               target="_blank"
             >
